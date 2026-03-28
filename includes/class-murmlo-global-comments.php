@@ -177,7 +177,10 @@ class Murmlo_Global_Comments {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		// Content filter for injecting comments link/button
+		// Classic themes: the_content filter
 		$this->loader->add_filter( 'the_content', $plugin_public, 'inject_comments_element', 99 );
+		// Block themes: render_block filter for post-content and post-excerpt blocks
+		$this->loader->add_filter( 'render_block', $plugin_public, 'inject_into_post_content_block', 10, 2 );
 
 		// Shortcode registration
 		$this->loader->add_action( 'init', $plugin_public, 'register_shortcode' );

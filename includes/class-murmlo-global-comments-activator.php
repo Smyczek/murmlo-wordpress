@@ -34,12 +34,13 @@ class Murmlo_Global_Comments_Activator {
 		// Only set defaults if options don't exist yet
 		if ( false === get_option( MURMLO_OPTIONS_KEY ) ) {
 			$defaults = array(
-				'enable'                      => false,
-				'post_types'                  => array( 'post', 'page' ),
-				'position'                    => 'after',
-				'variant'                     => 'link',
-				'label'                       => '',
-				'disable_wp_comments'         => false,
+				'enable'              => true,
+				'post_types'          => array( 'post', 'page' ),
+				'position'            => 'after',
+				'variant'             => 'button',
+				'theme'               => '',
+				'label'               => '',
+				'disable_wp_comments' => false,
 			);
 			add_option( MURMLO_OPTIONS_KEY, $defaults );
 		}

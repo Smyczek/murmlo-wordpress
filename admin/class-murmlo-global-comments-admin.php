@@ -145,7 +145,13 @@ class Murmlo_Global_Comments_Admin {
 		$valid_variants       = array( 'link', 'button' );
 		$sanitized['variant'] = isset( $input['variant'] ) && in_array( $input['variant'], $valid_variants, true )
 			? $input['variant']
-			: 'link';
+			: 'button';
+
+		// theme (color theme)
+		$valid_themes       = array( '', 'brand', 'light', 'dark', 'light-mono', 'dark-mono' );
+		$sanitized['theme'] = isset( $input['theme'] ) && in_array( $input['theme'], $valid_themes, true )
+			? $input['theme']
+			: '';
 
 		// label (string, can be empty)
 		$sanitized['label'] = isset( $input['label'] )

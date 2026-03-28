@@ -100,6 +100,34 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 				</td>
 			</tr>
 
+			<!-- Theme -->
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Color Theme', 'murmlo-global-comments' ); ?></th>
+				<td>
+					<?php $theme = isset( $options['theme'] ) ? $options['theme'] : ''; ?>
+					<select name="<?php echo esc_attr( MURMLO_OPTIONS_KEY ); ?>[theme]">
+						<option value="" <?php selected( $theme, '' ); ?>>
+							<?php esc_html_e( 'Default (inherits from your theme)', 'murmlo-global-comments' ); ?>
+						</option>
+						<option value="brand" <?php selected( $theme, 'brand' ); ?>>
+							<?php esc_html_e( 'Brand (green)', 'murmlo-global-comments' ); ?>
+						</option>
+						<option value="light" <?php selected( $theme, 'light' ); ?>>
+							<?php esc_html_e( 'Light', 'murmlo-global-comments' ); ?>
+						</option>
+						<option value="dark" <?php selected( $theme, 'dark' ); ?>>
+							<?php esc_html_e( 'Dark', 'murmlo-global-comments' ); ?>
+						</option>
+						<option value="light-mono" <?php selected( $theme, 'light-mono' ); ?>>
+							<?php esc_html_e( 'Light Mono (no green)', 'murmlo-global-comments' ); ?>
+						</option>
+						<option value="dark-mono" <?php selected( $theme, 'dark-mono' ); ?>>
+							<?php esc_html_e( 'Dark Mono (no green)', 'murmlo-global-comments' ); ?>
+						</option>
+					</select>
+				</td>
+			</tr>
+
 			<!-- Custom Label -->
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Custom Label', 'murmlo-global-comments' ); ?></th>
@@ -110,7 +138,7 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 						   class="regular-text"
 						   placeholder="<?php esc_attr_e( 'Leave empty for dynamic labels', 'murmlo-global-comments' ); ?>">
 					<p class="description">
-						<?php esc_html_e( 'If empty, the label will be "Comments (N) on Murmlo" or "Be the first to comment on Murmlo".', 'murmlo-global-comments' ); ?>
+						<?php esc_html_e( 'Default: "Comments". The count badge appears automatically when there are murmurs.', 'murmlo-global-comments' ); ?>
 					</p>
 				</td>
 			</tr>
@@ -164,6 +192,11 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 				<td><code>link</code> | <code>button</code></td>
 				<td><?php esc_html_e( 'Display style', 'murmlo-global-comments' ); ?></td>
 			</tr>
+			<tr>
+				<td><code>theme</code></td>
+				<td><code>brand</code> | <code>light</code> | <code>dark</code> | <code>light-mono</code> | <code>dark-mono</code></td>
+				<td><?php esc_html_e( 'Color theme (overrides global setting)', 'murmlo-global-comments' ); ?></td>
+			</tr>
 			</tbody>
 	</table>
 
@@ -176,6 +209,26 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 	<p class="description">
 		<strong><?php esc_html_e( 'Note:', 'murmlo-global-comments' ); ?></strong>
 		<?php esc_html_e( 'The shortcode works even when "Enable" is unchecked above. This allows manual placement via page builders while keeping automatic injection disabled.', 'murmlo-global-comments' ); ?>
+	</p>
+
+	<hr>
+
+	<h2><?php esc_html_e( 'Custom Styling', 'murmlo-global-comments' ); ?></h2>
+	<p><?php esc_html_e( 'Override the button appearance by adding custom CSS to your theme. The button uses CSS custom properties that you can change:', 'murmlo-global-comments' ); ?></p>
+
+	<pre style="background: #f0f0f1; padding: 12px 16px; border-radius: 4px; max-width: 600px; overflow-x: auto; font-size: 13px;"><code>.murmlo-comments-wrapper {
+  --murmlo-bg: transparent;      /* <?php esc_html_e( 'Button background', 'murmlo-global-comments' ); ?> */
+  --murmlo-text: currentColor;   /* <?php esc_html_e( 'Text color', 'murmlo-global-comments' ); ?> */
+  --murmlo-border: currentColor; /* <?php esc_html_e( 'Border color', 'murmlo-global-comments' ); ?> */
+  --murmlo-logo: #2cb7a3;        /* <?php esc_html_e( 'Logo color', 'murmlo-global-comments' ); ?> */
+  --murmlo-badge-bg: #2cb7a3;    /* <?php esc_html_e( 'Count badge background', 'murmlo-global-comments' ); ?> */
+  --murmlo-badge-text: #fff;     /* <?php esc_html_e( 'Count badge text', 'murmlo-global-comments' ); ?> */
+  --murmlo-radius: 6px;          /* <?php esc_html_e( 'Border radius', 'murmlo-global-comments' ); ?> */
+  --murmlo-logo-size: 22px;      /* <?php esc_html_e( 'Logo size', 'murmlo-global-comments' ); ?> */
+}</code></pre>
+
+	<p class="description">
+		<?php esc_html_e( 'Add this to Appearance → Customize → Additional CSS, or to your child theme\'s style.css file.', 'murmlo-global-comments' ); ?>
 	</p>
 
 </div>

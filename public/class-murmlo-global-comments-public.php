@@ -40,6 +40,7 @@ class Murmlo_Global_Comments_Public {
 	 */
 	private $version;
 
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -237,7 +238,12 @@ class Murmlo_Global_Comments_Public {
 		// Determine variant
 		$variant = isset( $overrides['variant'] ) && ! empty( $overrides['variant'] )
 			? $overrides['variant']
-			: ( isset( $options['variant'] ) ? $options['variant'] : 'link' );
+			: ( isset( $options['variant'] ) ? $options['variant'] : 'button' );
+
+		// Determine theme
+		$theme = isset( $overrides['theme'] ) && ! empty( $overrides['theme'] )
+			? $overrides['theme']
+			: ( isset( $options['theme'] ) ? $options['theme'] : '' );
 
 		// Build HTML
 		$class = 'murmlo-comments-' . esc_attr( $variant );
@@ -245,6 +251,9 @@ class Murmlo_Global_Comments_Public {
 		$html  = '<div class="murmlo-comments-wrapper">';
 		$html .= '<a href="' . esc_url( $room_url ) . '" ';
 		$html .= 'class="' . esc_attr( $class ) . '" ';
+		if ( ! empty( $theme ) ) {
+			$html .= 'data-murmlo-theme="' . esc_attr( $theme ) . '" ';
+		}
 		$html .= 'target="_blank" ';
 		$html .= 'rel="nofollow noopener noreferrer">';
 		$html .= $label;
@@ -262,17 +271,7 @@ class Murmlo_Global_Comments_Public {
 	 * @return   bool
 	 */
 	private function should_display( $options ) {
-		// Must be singular view
-		if ( ! is_singular() ) {
-			return false;
-		}
-
-		// Must be main query and in the loop
-		if ( ! is_main_query() || ! in_the_loop() ) {
-			return false;
-		}
-
-		// Skip various non-content contexts
+		// Skip non-content contexts
 		if ( is_feed() || is_admin() || wp_doing_ajax() || is_preview() ) {
 			return false;
 		}
@@ -303,7 +302,7 @@ class Murmlo_Global_Comments_Public {
 			return $content;
 		}
 
-		// Double injection guard - check if already injected
+		// Skip if already injected in this content
 		if ( false !== strpos( $content, 'murmlo-comments-wrapper' ) ) {
 			return $content;
 		}
@@ -325,6 +324,60 @@ class Murmlo_Global_Comments_Public {
 		}
 	}
 
+	/**
+	 * Inject comments element into post-content block (block themes).
+	 *
+	 * Block themes render content via blocks, not the_content filter.
+	 * This hooks into render_block to append the button after core/post-content.
+	 *
+	 * @since    1.0.0
+	 * @param    string    $block_content    Rendered block HTML.
+	 * @param    array     $block            Block data.
+	 * @return   string                      Modified block HTML.
+	 */
+	public function inject_into_post_content_block( $block_content, $block ) {
+		// Target post-content and post-excerpt blocks
+		$target_blocks = array( 'core/post-content', 'core/post-excerpt' );
+		if ( ! in_array( $block['blockName'], $target_blocks, true ) ) {
+			return $block_content;
+		}
+
+		$options = get_option( MURMLO_OPTIONS_KEY, array() );
+
+		if ( ! $this->should_display( $options ) ) {
+			return $block_content;
+		}
+
+		// Skip if already injected
+		if ( false !== strpos( $block_content, 'murmlo-comments-wrapper' ) ) {
+			return $block_content;
+		}
+
+		$url     = $this->get_canonical_url();
+		$element = $this->render_element( $url, $options );
+
+		$position = isset( $options['position'] ) ? $options['position'] : 'after';
+
+		switch ( $position ) {
+			case 'before':
+				return $element . $block_content;
+			case 'after':
+				return $block_content . $element;
+			case 'both':
+				return $element . $block_content . $element;
+			default:
+				return $block_content . $element;
+		}
+	}
+
+	/**
+	 * Fallback: inject via wp_footer if no other hook managed to.
+	 *
+	 * This handles edge cases where neither the_content nor render_block
+	 * fires (e.g. block themes without a post-content block).
+	 *
+	 * @since    1.0.0
+	 */
 	/**
 	 * Register shortcode.
 	 *
@@ -349,6 +402,7 @@ class Murmlo_Global_Comments_Public {
 			array(
 				'label'   => '',
 				'variant' => '',
+				'theme'   => '',
 			),
 			$atts,
 			'murmlo_comments'
@@ -365,6 +419,11 @@ class Murmlo_Global_Comments_Public {
 
 		if ( '' !== $atts['variant'] && in_array( $atts['variant'], array( 'link', 'button' ), true ) ) {
 			$overrides['variant'] = $atts['variant'];
+		}
+
+		$valid_themes = array( 'brand', 'light', 'dark', 'light-mono', 'dark-mono' );
+		if ( '' !== $atts['theme'] && in_array( $atts['theme'], $valid_themes, true ) ) {
+			$overrides['theme'] = $atts['theme'];
 		}
 
 		$url = $this->get_canonical_url();
