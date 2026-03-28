@@ -25,9 +25,9 @@ delete_option( 'murmlo_global_comments_options' );
 
 // For multisite installations, clean up each site's options.
 if ( is_multisite() ) {
-	$sites = get_sites( array( 'fields' => 'ids' ) );
-	foreach ( $sites as $site_id ) {
-		switch_to_blog( $site_id );
+	$murmlo_gc_sites = get_sites( array( 'fields' => 'ids' ) );
+	foreach ( $murmlo_gc_sites as $murmlo_gc_site_id ) {
+		switch_to_blog( $murmlo_gc_site_id );
 		delete_option( 'murmlo_global_comments_options' );
 		restore_current_blog();
 	}

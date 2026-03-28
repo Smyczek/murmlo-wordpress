@@ -2,37 +2,40 @@
 Contributors: murmlo
 Tags: comments, discussion, external comments, murmlo, community
 Requires at least: 5.0
-Tested up to: 6.7
+Tested up to: 6.9
 Stable tag: 1.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Replace or supplement WordPress comments with Murmlo — a global, URL-based discussion layer.
+Add a Murmlo comments button to your posts — animated logo, comment count, mobile deep linking.
 
 == Description ==
 
-**Murmlo – Global Comments** adds a link or button to your posts that takes readers to a discussion on [Murmlo](https://murmlo.com/). Murmlo is a threaded discussion platform where conversations happen around URLs — so your readers can join a broader conversation that extends beyond your site.
+**Murmlo – Global Comments** adds a button to your posts that opens a discussion on [Murmlo](https://murmlo.com/). Murmlo is a threaded discussion platform where conversations happen around URLs — your readers can join a broader conversation that extends beyond your site.
 
-This is a lightweight "gateway" plugin. It does **not** embed comments on your page. Instead, it provides a customizable link/button that opens the Murmlo discussion room for each post's URL.
+This is a lightweight plugin. It does **not** embed comments on your page. Instead, it provides a button with an animated Murmlo logo and a live comment count badge.
 
 **Features:**
 
-* Automatic link/button injection after (or before) post content
-* Live murmur count badge fetched from the Murmlo API
-* `[murmlo_comments]` shortcode for manual placement in page builders
+* Animated M logo with loading animation
+* Live comment count badge fetched client-side from the Murmlo API
+* 6 color themes: Default, Brand, Light, Dark, Light Mono, Dark Mono
+* `[murmlo_comments]` shortcode for manual placement
 * Option to suppress native WordPress comments
-* Works with Yoast SEO and RankMath canonical URLs
-* URL normalization (strips UTM params, fragments)
-* Theme-neutral styling — adapts to your theme's colors
-* Browser extension detection — opens sidepanel if installed
-* Lightweight — no JavaScript frameworks, no iframes
+* Works with classic themes and block themes (Full Site Editing)
+* Mobile deep linking — opens the Murmlo app on iOS/Android
+* Chrome extension integration — opens sidepanel if installed
+* Custom CSS variables for full style control
+* Lightweight — vanilla JavaScript, no frameworks, no iframes
 
 == Installation ==
 
-1. Upload the `murmo-global-comments` folder to `/wp-content/plugins/`
+1. Upload the plugin folder to `/wp-content/plugins/`
 2. Activate the plugin through the **Plugins** menu in WordPress
 3. Go to **Settings > Murmlo Comments** to configure
+
+The button appears automatically on posts and pages after activation.
 
 == Frequently Asked Questions ==
 
@@ -44,34 +47,44 @@ Only if you want it to. There is an option to disable native WordPress comments 
 
 No. Murmlo supports anonymous commenting. Readers can also create a free account for additional features.
 
-= Can I customize the link text? =
+= Can I customize the button text? =
 
-Yes. You can set a custom label in the settings, or leave it empty for dynamic labels that show the murmur count (e.g. "Comments (5) on Murmlo").
+Yes. Set a custom label in the settings, or leave it empty for the default "Comments" text. You can write anything in any language.
 
-= Can I place the link manually instead of auto-injecting? =
+= Can I change the button colors? =
 
-Yes. Use the `[murmlo_comments]` shortcode anywhere in your content. The shortcode works even when auto-injection is disabled.
+Yes. Choose from 6 built-in color themes in the settings, or override any style using CSS custom properties. See the Custom Styling section in the settings page.
 
-= Does it work with caching plugins? =
+= Can I place the button manually? =
 
-Yes. Murmur counts are cached server-side using WordPress transients (5-minute TTL), so it works well with page caching plugins.
+Yes. Use the `[murmlo_comments]` shortcode anywhere in your content. Supports `variant`, `label`, and `theme` attributes. Works even when auto-injection is disabled.
+
+= Does it work with block themes (Full Site Editing)? =
+
+Yes. The plugin hooks into both classic `the_content` filter and block theme `render_block` for full compatibility.
+
+= What happens on mobile? =
+
+On iOS and Android, tapping the button opens the Murmlo app directly. If the app is not installed, it falls back to the Murmlo website.
 
 == Screenshots ==
 
 1. Settings page in WordPress admin
-2. Link displayed below a post
-3. Button variant below a post
+2. Button with animated M logo and comment count
+3. Color theme variants
 
 == Changelog ==
 
 = 1.0.0 =
 * Initial release
-* Link/button injection with configurable position
-* Murmur count badge with API caching
-* Shortcode support
+* Animated M logo with stroke drawing animation
+* Live comment count badge (client-side API fetch)
+* 6 color themes with CSS custom properties
+* Block theme support (render_block hook)
+* Shortcode with variant, label, and theme attributes
+* Mobile deep linking (iOS/Android)
+* Chrome extension sidepanel integration
 * WordPress comments suppression option
-* Canonical URL detection (Yoast SEO, RankMath, fallback)
-* Browser extension sidepanel integration
 
 == Upgrade Notice ==
 

@@ -17,9 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$options        = get_option( MURMLO_OPTIONS_KEY, array() );
-$post_types     = get_post_types( array( 'public' => true ), 'objects' );
-$selected_types = isset( $options['post_types'] ) ? (array) $options['post_types'] : array( 'post', 'page' );
+$murmlo_gc_options        = get_option( MURMLO_OPTIONS_KEY, array() );
+$murmlo_gc_post_types     = get_post_types( array( 'public' => true ), 'objects' );
+$murmlo_gc_selected_types = isset( $murmlo_gc_options['post_types'] ) ? (array) $murmlo_gc_options['post_types'] : array( 'post', 'page' );
 ?>
 
 <div class="wrap">
@@ -37,7 +37,7 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 						<input type="checkbox"
 							   name="<?php echo esc_attr( MURMLO_OPTIONS_KEY ); ?>[enable]"
 							   value="1"
-							   <?php checked( ! empty( $options['enable'] ) ); ?>>
+							   <?php checked( ! empty( $murmlo_gc_options['enable'] ) ); ?>>
 						<?php esc_html_e( 'Enable Murmlo comments link on posts', 'murmlo-global-comments' ); ?>
 					</label>
 				</td>
@@ -48,14 +48,14 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 				<th scope="row"><?php esc_html_e( 'Post Types', 'murmlo-global-comments' ); ?></th>
 				<td>
 					<fieldset>
-						<?php foreach ( $post_types as $pt_slug => $pt_obj ) : ?>
+						<?php foreach ( $murmlo_gc_post_types as $murmlo_gc_pt_slug => $murmlo_gc_pt_obj ) : ?>
 							<label style="display: block; margin-bottom: 5px;">
 								<input type="checkbox"
 									   name="<?php echo esc_attr( MURMLO_OPTIONS_KEY ); ?>[post_types][]"
-									   value="<?php echo esc_attr( $pt_slug ); ?>"
-									   <?php checked( in_array( $pt_slug, $selected_types, true ) ); ?>>
-								<?php echo esc_html( $pt_obj->labels->name ); ?>
-								<code><?php echo esc_html( $pt_slug ); ?></code>
+									   value="<?php echo esc_attr( $murmlo_gc_pt_slug ); ?>"
+									   <?php checked( in_array( $murmlo_gc_pt_slug, $murmlo_gc_selected_types, true ) ); ?>>
+								<?php echo esc_html( $murmlo_gc_pt_obj->labels->name ); ?>
+								<code><?php echo esc_html( $murmlo_gc_pt_slug ); ?></code>
 							</label>
 						<?php endforeach; ?>
 					</fieldset>
@@ -69,15 +69,15 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Position', 'murmlo-global-comments' ); ?></th>
 				<td>
-					<?php $position = isset( $options['position'] ) ? $options['position'] : 'after'; ?>
+					<?php $murmlo_gc_position = isset( $murmlo_gc_options['position'] ) ? $murmlo_gc_options['position'] : 'after'; ?>
 					<select name="<?php echo esc_attr( MURMLO_OPTIONS_KEY ); ?>[position]">
-						<option value="before" <?php selected( $position, 'before' ); ?>>
+						<option value="before" <?php selected( $murmlo_gc_position, 'before' ); ?>>
 							<?php esc_html_e( 'Before content', 'murmlo-global-comments' ); ?>
 						</option>
-						<option value="after" <?php selected( $position, 'after' ); ?>>
+						<option value="after" <?php selected( $murmlo_gc_position, 'after' ); ?>>
 							<?php esc_html_e( 'After content', 'murmlo-global-comments' ); ?>
 						</option>
-						<option value="both" <?php selected( $position, 'both' ); ?>>
+						<option value="both" <?php selected( $murmlo_gc_position, 'both' ); ?>>
 							<?php esc_html_e( 'Before and after content', 'murmlo-global-comments' ); ?>
 						</option>
 					</select>
@@ -88,12 +88,12 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Display Style', 'murmlo-global-comments' ); ?></th>
 				<td>
-					<?php $variant = isset( $options['variant'] ) ? $options['variant'] : 'link'; ?>
+					<?php $murmlo_gc_variant = isset( $murmlo_gc_options['variant'] ) ? $murmlo_gc_options['variant'] : 'link'; ?>
 					<select name="<?php echo esc_attr( MURMLO_OPTIONS_KEY ); ?>[variant]">
-						<option value="link" <?php selected( $variant, 'link' ); ?>>
+						<option value="link" <?php selected( $murmlo_gc_variant, 'link' ); ?>>
 							<?php esc_html_e( 'Link', 'murmlo-global-comments' ); ?>
 						</option>
-						<option value="button" <?php selected( $variant, 'button' ); ?>>
+						<option value="button" <?php selected( $murmlo_gc_variant, 'button' ); ?>>
 							<?php esc_html_e( 'Button', 'murmlo-global-comments' ); ?>
 						</option>
 					</select>
@@ -104,24 +104,24 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Color Theme', 'murmlo-global-comments' ); ?></th>
 				<td>
-					<?php $theme = isset( $options['theme'] ) ? $options['theme'] : ''; ?>
+					<?php $murmlo_gc_theme = isset( $murmlo_gc_options['theme'] ) ? $murmlo_gc_options['theme'] : ''; ?>
 					<select name="<?php echo esc_attr( MURMLO_OPTIONS_KEY ); ?>[theme]">
-						<option value="" <?php selected( $theme, '' ); ?>>
+						<option value="" <?php selected( $murmlo_gc_theme, '' ); ?>>
 							<?php esc_html_e( 'Default (inherits from your theme)', 'murmlo-global-comments' ); ?>
 						</option>
-						<option value="brand" <?php selected( $theme, 'brand' ); ?>>
+						<option value="brand" <?php selected( $murmlo_gc_theme, 'brand' ); ?>>
 							<?php esc_html_e( 'Brand (green)', 'murmlo-global-comments' ); ?>
 						</option>
-						<option value="light" <?php selected( $theme, 'light' ); ?>>
+						<option value="light" <?php selected( $murmlo_gc_theme, 'light' ); ?>>
 							<?php esc_html_e( 'Light', 'murmlo-global-comments' ); ?>
 						</option>
-						<option value="dark" <?php selected( $theme, 'dark' ); ?>>
+						<option value="dark" <?php selected( $murmlo_gc_theme, 'dark' ); ?>>
 							<?php esc_html_e( 'Dark', 'murmlo-global-comments' ); ?>
 						</option>
-						<option value="light-mono" <?php selected( $theme, 'light-mono' ); ?>>
+						<option value="light-mono" <?php selected( $murmlo_gc_theme, 'light-mono' ); ?>>
 							<?php esc_html_e( 'Light Mono (no green)', 'murmlo-global-comments' ); ?>
 						</option>
-						<option value="dark-mono" <?php selected( $theme, 'dark-mono' ); ?>>
+						<option value="dark-mono" <?php selected( $murmlo_gc_theme, 'dark-mono' ); ?>>
 							<?php esc_html_e( 'Dark Mono (no green)', 'murmlo-global-comments' ); ?>
 						</option>
 					</select>
@@ -134,7 +134,7 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 				<td>
 					<input type="text"
 						   name="<?php echo esc_attr( MURMLO_OPTIONS_KEY ); ?>[label]"
-						   value="<?php echo esc_attr( isset( $options['label'] ) ? $options['label'] : '' ); ?>"
+						   value="<?php echo esc_attr( isset( $murmlo_gc_options['label'] ) ? $murmlo_gc_options['label'] : '' ); ?>"
 						   class="regular-text"
 						   placeholder="<?php esc_attr_e( 'Leave empty for dynamic labels', 'murmlo-global-comments' ); ?>">
 					<p class="description">
@@ -151,7 +151,7 @@ $selected_types = isset( $options['post_types'] ) ? (array) $options['post_types
 						<input type="checkbox"
 							   name="<?php echo esc_attr( MURMLO_OPTIONS_KEY ); ?>[disable_wp_comments]"
 							   value="1"
-							   <?php checked( ! empty( $options['disable_wp_comments'] ) ); ?>>
+							   <?php checked( ! empty( $murmlo_gc_options['disable_wp_comments'] ) ); ?>>
 						<?php esc_html_e( 'Disable native WordPress comments on selected post types', 'murmlo-global-comments' ); ?>
 					</label>
 					<p class="description">

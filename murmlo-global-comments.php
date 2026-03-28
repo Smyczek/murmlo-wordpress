@@ -56,7 +56,7 @@ define( 'MURMLO_OPTIONS_KEY', 'murmlo_global_comments_options' );
  * The code that runs during plugin activation.
  * This action is documented in includes/class-murmlo-global-comments-activator.php
  */
-function activate_murmlo_global_comments() {
+function murmlo_gc_activate() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-murmlo-global-comments-activator.php';
 	Murmlo_Global_Comments_Activator::activate();
 }
@@ -65,13 +65,13 @@ function activate_murmlo_global_comments() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-murmlo-global-comments-deactivator.php
  */
-function deactivate_murmlo_global_comments() {
+function murmlo_gc_deactivate() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-murmlo-global-comments-deactivator.php';
 	Murmlo_Global_Comments_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_murmlo_global_comments' );
-register_deactivation_hook( __FILE__, 'deactivate_murmlo_global_comments' );
+register_activation_hook( __FILE__, 'murmlo_gc_activate' );
+register_deactivation_hook( __FILE__, 'murmlo_gc_deactivate' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -88,8 +88,8 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-murmlo-global-comments.php
  *
  * @since    1.0.0
  */
-function run_murmlo_global_comments() {
+function murmlo_gc_run() {
 	$plugin = new Murmlo_Global_Comments();
 	$plugin->run();
 }
-run_murmlo_global_comments();
+murmlo_gc_run();
