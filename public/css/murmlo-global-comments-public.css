@@ -1,0 +1,160 @@
+/**
+ * Murmlo Embed - Public Styles
+ *
+ * Branded button with animated M logo + count badge.
+ * Color variants via CSS custom properties.
+ *
+ * Themes: brand, dark, light, dark-mono, light-mono
+ *
+ * @package    Murmlo_Global_Comments
+ * @subpackage Murmlo_Global_Comments/public/css
+ */
+
+/* ===== CSS CUSTOM PROPERTIES ===== */
+.murmlo-comments-wrapper {
+	--murmlo-brand: #2cb7a3;
+	--murmlo-bg: transparent;
+	--murmlo-text: currentColor;
+	--murmlo-border: currentColor;
+	--murmlo-logo: #2cb7a3;
+	--murmlo-badge-bg: #2cb7a3;
+	--murmlo-badge-text: #fff;
+	--murmlo-radius: 6px;
+	--murmlo-logo-size: 22px;
+	margin: 1.5em 0;
+}
+
+/* ===== COLOR THEMES ===== */
+
+.murmlo-theme-brand {
+	--murmlo-bg: #2cb7a3;
+	--murmlo-text: #fff;
+	--murmlo-border: #2cb7a3;
+	--murmlo-logo: #fff;
+	--murmlo-badge-bg: rgba(255, 255, 255, 0.25);
+	--murmlo-badge-text: #fff;
+}
+
+.murmlo-theme-dark {
+	--murmlo-bg: #1a1a1a;
+	--murmlo-text: #fff;
+	--murmlo-border: #333;
+}
+
+.murmlo-theme-light {
+	--murmlo-bg: #fff;
+	--murmlo-text: #1a1a1a;
+	--murmlo-border: #e0e0e0;
+}
+
+.murmlo-theme-dark-mono {
+	--murmlo-bg: #1a1a1a;
+	--murmlo-text: #fff;
+	--murmlo-border: #333;
+	--murmlo-logo: #fff;
+	--murmlo-badge-bg: rgba(255, 255, 255, 0.2);
+	--murmlo-badge-text: #fff;
+}
+
+.murmlo-theme-light-mono {
+	--murmlo-bg: #fff;
+	--murmlo-text: #1a1a1a;
+	--murmlo-border: #e0e0e0;
+	--murmlo-logo: #1a1a1a;
+	--murmlo-badge-bg: #1a1a1a;
+	--murmlo-badge-text: #fff;
+}
+
+/* ===== SHARED BASE ===== */
+.murmlo-comments-link,
+.murmlo-comments-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--murmlo-text);
+	text-decoration: none;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	font-size: 14px;
+	line-height: 1;
+	cursor: pointer;
+	transition: opacity 0.15s ease;
+}
+
+.murmlo-comments-link:hover,
+.murmlo-comments-link:focus,
+.murmlo-comments-button:hover,
+.murmlo-comments-button:focus {
+	opacity: 0.8;
+	text-decoration: none;
+}
+
+/* ===== BUTTON VARIANT ===== */
+.murmlo-comments-button {
+	padding: 8px 14px;
+	background: var(--murmlo-bg);
+	border: 1px solid var(--murmlo-border);
+	border-radius: var(--murmlo-radius);
+}
+
+/* ===== M LOGO ===== */
+.murmlo-logo-wrap {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--murmlo-logo-size);
+	height: var(--murmlo-logo-size);
+	flex-shrink: 0;
+}
+
+.murmlo-logo-wrap svg {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.murmlo-logo-wrap svg path {
+	stroke: var(--murmlo-logo);
+	fill: none;
+	stroke-dasharray: 100;
+	stroke-dashoffset: 0;
+	transition: stroke-dashoffset 0.4s ease;
+}
+
+.murmlo-loading .murmlo-logo-wrap svg path {
+	animation: murmlo-draw 1.6s ease-in-out infinite;
+}
+
+@keyframes murmlo-draw {
+	0% { stroke-dashoffset: 100; stroke-dasharray: 100; }
+	50% { stroke-dashoffset: 0; stroke-dasharray: 100; }
+	100% { stroke-dashoffset: -100; stroke-dasharray: 100; }
+}
+
+.murmlo-loaded .murmlo-logo-wrap svg path {
+	stroke-dasharray: none;
+	stroke-dashoffset: 0;
+	animation: none;
+}
+
+/* ===== COUNT BADGE ===== */
+.murmlo-count-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 20px;
+	height: 20px;
+	padding: 0 6px;
+	background: var(--murmlo-badge-bg);
+	color: var(--murmlo-badge-text);
+	font-size: 11px;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	line-height: 1;
+	border-radius: 10px;
+}
+
+/* ===== STANDALONE COUNT MODE ===== */
+.murmlo-count {
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+}
